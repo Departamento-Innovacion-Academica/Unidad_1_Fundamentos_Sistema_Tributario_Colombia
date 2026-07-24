@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ejercicios de Repaso - Tributación</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f0f2f7;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 900px;
+            max-width: 95%;
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 44px 44px 40px;
+            box-shadow: 0 8px 40px rgba(3, 34, 61, 0.10);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .titulo {
+            text-align: left;
+        }
+
+        .titulo h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #03223D;
+            letter-spacing: -0.5px;
+        }
+
+        .titulo .line {
+            width: 50px;
+            height: 3px;
+            background: #356289;
+            margin: 8px 0 0 0;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: #6b7a9f;
+            font-weight: 500;
+            background: #f0f2f7;
+            padding: 6px 18px;
+            border-radius: 100px;
+            flex-shrink: 0;
+        }
+
+        .progress-text span {
+            color: #03223D;
+            font-weight: 700;
+        }
+
+        .progress-bar-wrapper {
+            width: 100%;
+            height: 4px;
+            background: #e9ecf3;
+            border-radius: 10px;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #356289;
+            border-radius: 10px;
+            width: 25%;
+            transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .question-card {
+            background: #fafbff;
+            border-radius: 16px;
+            padding: 28px 30px;
+            border: 1px solid #eef0f6;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-number {
+            color: #356289;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+
+        .question-type {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #ffffff;
+            background: #356289;
+            padding: 2px 14px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            align-self: flex-start;
+        }
+
+        .question-text {
+            color: #03223D;
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: #ffffff;
+            border: 1.5px solid #e4e8f0;
+            border-radius: 12px;
+            padding: 12px 18px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            color: #1a264a;
+            font-weight: 450;
+            line-height: 1.5;
+            font-size: 0.92rem;
+        }
+
+        .option-label:hover:not(.disabled) {
+            border-color: #356289;
+            background: #f8f9ff;
+            transform: translateX(3px);
+        }
+
+        .option-label input[type="radio"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            border: 2px solid #c8d0df;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            background: transparent;
+        }
+
+        .option-label input[type="radio"]:checked {
+            border-color: #356289;
+            background: #356289;
+            box-shadow: 0 0 16px rgba(53, 98, 137, 0.20);
+        }
+
+        .option-label input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+
+        .option-label .letter {
+            font-weight: 600;
+            color: #356289;
+            font-size: 0.8rem;
+            min-width: 22px;
+        }
+
+        .feedback {
+            margin-top: 18px;
+            padding: 16px 20px;
+            border-radius: 12px;
+            background: #f8faff;
+            border-left: 4px solid #356289;
+            display: none;
+            color: #1a264a;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .feedback.show {
+            display: block;
+            animation: fadeSlide 0.4s ease;
+        }
+
+        .feedback.correct {
+            border-left-color: #22c55e;
+            background: #f0fdf4;
+        }
+
+        .feedback.incorrect {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .feedback .feedback-label {
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        @keyframes fadeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            gap: 14px;
+        }
+
+        .btn {
+            padding: 10px 28px;
+            border-radius: 60px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.2px;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-secondary {
+            background: #f0f2f7;
+            color: #356289;
+            border: 1.5px solid transparent;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #e4e8f2;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: #03223D;
+            color: #ffffff;
+            border: 1.5px solid #03223D;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #052d52;
+            border-color: #052d52;
+            box-shadow: 0 4px 16px rgba(3, 34, 61, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #356289;
+            color: #ffffff;
+            border: 1.5px solid #356289;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #2a4f72;
+            border-color: #2a4f72;
+            box-shadow: 0 4px 20px rgba(53, 98, 137, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: transparent;
+            color: #6b7a9f;
+            border: 1.5px solid #e4e8f0;
+        }
+
+        .btn-reset:hover {
+            border-color: #356289;
+            color: #356289;
+            background: rgba(53, 98, 137, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .option-label.correct {
+            border-color: #22c55e !important;
+            background: #f0fdf4 !important;
+        }
+
+        .option-label.correct input[type="radio"] {
+            border-color: #22c55e;
+            background: #22c55e;
+        }
+
+        .option-label.correct input[type="radio"]::after {
+            background: #ffffff;
+        }
+
+        .option-label.wrong {
+            border-color: #ef4444 !important;
+            background: #fef2f2 !important;
+        }
+
+        .option-label.wrong input[type="radio"] {
+            border-color: #ef4444;
+            background: #ef4444;
+        }
+
+        .option-label.wrong input[type="radio"]::after {
+            background: #ffffff;
+        }
+
+        .option-label.disabled {
+            opacity: 0.7;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .option-label.selected {
+            border-color: #356289;
+            background: #f5f7ff;
+        }
+
+        .resultados {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .resultados.show {
+            display: block;
+            animation: fadeSlide 0.5s ease;
+        }
+
+        .resultados .score {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #03223D;
+        }
+
+        .resultados .score .total {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #6b7a9f;
+        }
+
+        .resultados .label {
+            font-size: 1.1rem;
+            color: #356289;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .resultados .message {
+            font-size: 0.95rem;
+            color: #4a5a7a;
+            margin-top: 8px;
+            padding: 12px 24px;
+            background: #f0f2f7;
+            border-radius: 12px;
+            display: inline-block;
+        }
+
+        .resultados .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0 28px;
+        }
+
+        .resultados .stats .stat {
+            text-align: center;
+        }
+
+        .resultados .stats .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #03223D;
+        }
+
+        .resultados .stats .stat-number.correct {
+            color: #22c55e;
+        }
+
+        .resultados .stats .stat-number.incorrect {
+            color: #ef4444;
+        }
+
+        .resultados .stats .stat-label {
+            font-size: 0.75rem;
+            color: #6b7a9f;
+            font-weight: 500;
+        }
+
+        .resultados .actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .resultados .actions .btn {
+            flex: 0 1 auto;
+            min-width: 140px;
+        }
+
+        .hide-when-results {
+            display: block;
+        }
+
+        .resultados.show~.hide-when-results {
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px 20px;
+                border-radius: 18px;
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .titulo h1 {
+                font-size: 1.3rem;
+            }
+
+            .progress-text {
+                font-size: 0.7rem;
+                padding: 4px 14px;
+            }
+
+            .question-card {
+                padding: 20px 16px;
+                min-height: 220px;
+            }
+
+            .question-text {
+                font-size: 0.95rem;
+            }
+
+            .option-label {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.78rem;
+                min-width: 80px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .feedback {
+                font-size: 0.82rem;
+                padding: 12px 16px;
+            }
+
+            .resultados .score {
+                font-size: 2.8rem;
+            }
+            .resultados .stats {
+                gap: 20px;
+            }
+            .resultados .stats .stat-number {
+                font-size: 1.4rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f2f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8d0df;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #356289;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="titulo">
+                <h1>Ejercicios de Repaso</h1>
+                <div class="line"></div>
+            </div>
+            <div class="progress-text">
+                Pregunta <span id="currentNum">1</span> / <span id="totalNum">4</span>
+            </div>
+        </div>
+
+        <div class="progress-bar-wrapper">
+            <div class="progress-bar" id="progressBar" style="width: 25%"></div>
+        </div>
+
+        <div class="question-card hide-when-results" id="questionCard">
+            <div class="question-type" id="questionType">Selección Múltiple</div>
+            <div class="question-number" id="qNumber">Ejercicio 1</div>
+            <div class="question-text" id="qText">Cargando pregunta...</div>
+            <div class="options" id="optionsContainer"></div>
+            <div class="feedback" id="feedback">
+                <span class="feedback-label" id="feedbackLabel">💡</span>
+                <span id="feedbackText"></span>
+            </div>
+        </div>
+
+        <div class="nav-buttons hide-when-results" id="navButtons">
+            <button class="btn btn-secondary" id="prevBtn" disabled>← Anterior</button>
+            <button class="btn btn-primary" id="nextBtn">Siguiente →</button>
+        </div>
+
+        <div class="resultados" id="resultados">
+            <div class="label">📊 Resultado del Repaso</div>
+            <div class="score">
+                <span id="scoreNumber">0</span>
+                <span class="total">/ <span id="totalQuestions">4</span></span>
+            </div>
+            <div class="message" id="resultMessage">¡Excelente trabajo!</div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number correct" id="correctCount">0</div>
+                    <div class="stat-label">✅ Correctas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number incorrect" id="incorrectCount">0</div>
+                    <div class="stat-label">❌ Incorrectas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="percentageDisplay" style="color:#356289;">0%</div>
+                    <div class="stat-label">🎯 Precisión</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="revisarBtn">🔍 Revisar respuestas</button>
+                <button class="btn btn-reset" id="reiniciarBtn">🔄 Reintentar</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const questions = [{
+            id: 1,
+            type: 'Selección Múltiple',
+            text: '¿Cuál de los siguientes principios no hace parte de la tributación en Colombia?',
+            options: [
+                'Legalidad',
+                'Publicidad',
+                'Equidad',
+                'Progresividad'
+            ],
+            correctIndex: 1,
+            feedback: 'Los principios fundamentales del sistema tributario colombiano se encuentran consagrados en la Constitución Política de Colombia y comprenden la equidad, eficiencia y progresividad (artículo 363), así como los principios de legalidad y no retroactividad derivados de los artículos 338 y 363. El principio de publicidad es un principio general del derecho y de la función pública, pero no constituye un principio específico del sistema tributario colombiano.'
+        }, {
+            id: 2,
+            type: 'Selección Múltiple',
+            text: '¿Cuál es la principal norma que presenta la regulación de los tributos nacionales?',
+            options: [
+                'Estatuto Tributario.',
+                'Constitución Política de Colombia.',
+                'El Código General del Proceso.',
+                'Código de Comercio.'
+            ],
+            correctIndex: 0,
+            feedback: 'El Estatuto Tributario compila las principales disposiciones que regulan los impuestos nacionales administrados por la DIAN, tales como el Impuesto sobre la Renta y Complementarios, el Impuesto sobre las Ventas (IVA), el Impuesto Nacional al Consumo (INC) y el Régimen Simple de Tributación, entre otros. Por esta razón, constituye la principal fuente normativa de consulta en materia tributaria nacional.'
+        }, {
+            id: 3,
+            type: 'Selección Múltiple',
+            text: 'El grado de obligatoriedad de las tasas es:',
+            options: [
+                'Alto',
+                'Medio',
+                'Bajo',
+                'Muy alto'
+            ],
+            correctIndex: 2,
+            feedback: 'Las tasas se generan cuando una persona decide utilizar o solicitar un servicio prestado por el Estado. Por ello, su nivel de obligatoriedad es menor en comparación con los impuestos, ya que el pago surge únicamente cuando el contribuyente hace uso del servicio o actividad correspondiente. En consecuencia, la obligación de pago depende de la decisión voluntaria de acceder al servicio público ofrecido.'
+        }, {
+            id: 4,
+            type: 'Verdadero o Falso',
+            text: 'Una de las características de un impuesto es que, al pago del mismo, el contribuyente recibe contraprestación.',
+            options: ['Verdadero', 'Falso'],
+            correctIndex: 1,
+            feedback: 'Los impuestos son tributos de carácter obligatorio que se pagan al Estado sin que exista una contraprestación directa e individualizada para quien los cancela. Los recursos recaudados se destinan a financiar el gasto público y los servicios generales del Estado, beneficiando a la sociedad en su conjunto y no exclusivamente al contribuyente que realiza el pago.'
+        }];
+
+        let currentIndex = 0;
+        let answered = false;
+        let selectedOption = null;
+        let results = [];
+        let completed = false;
+
+        const qNumber = document.getElementById('qNumber');
+        const qText = document.getElementById('qText');
+        const qType = document.getElementById('questionType');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackDiv = document.getElementById('feedback');
+        const feedbackText = document.getElementById('feedbackText');
+        const feedbackLabel = document.getElementById('feedbackLabel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentNum = document.getElementById('currentNum');
+        const totalNum = document.getElementById('totalNum');
+        const progressBar = document.getElementById('progressBar');
+        const resultados = document.getElementById('resultados');
+        const scoreNumber = document.getElementById('scoreNumber');
+        const totalQuestions = document.getElementById('totalQuestions');
+        const correctCount = document.getElementById('correctCount');
+        const incorrectCount = document.getElementById('incorrectCount');
+        const percentageDisplay = document.getElementById('percentageDisplay');
+        const resultMessage = document.getElementById('resultMessage');
+        const revisarBtn = document.getElementById('revisarBtn');
+        const reiniciarBtn = document.getElementById('reiniciarBtn');
+
+        function renderQuestion(index) {
+            const q = questions[index];
+            if (!q) return;
+
+            qType.textContent = q.type;
+            qNumber.textContent = `Ejercicio ${q.id}`;
+            qText.textContent = q.text;
+            currentNum.textContent = index + 1;
+            totalNum.textContent = questions.length;
+            progressBar.style.width = `${((index + 1) / questions.length) * 100}%`;
+
+            answered = false;
+            selectedOption = null;
+
+            feedbackDiv.classList.remove('show', 'correct', 'incorrect');
+            feedbackText.textContent = '';
+
+            optionsContainer.innerHTML = '';
+            const letters = ['A', 'B', 'C', 'D'];
+
+            q.options.forEach((opt, i) => {
+                const label = document.createElement('label');
+                label.className = 'option-label';
+
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'question';
+                radio.value = i;
+
+                const letterSpan = document.createElement('span');
+                letterSpan.className = 'letter';
+                letterSpan.textContent = letters[i] + '.';
+
+                const textSpan = document.createElement('span');
+                textSpan.textContent = opt;
+
+                label.appendChild(radio);
+                label.appendChild(letterSpan);
+                label.appendChild(textSpan);
+
+                label.addEventListener('click', function(e) {
+                    if (answered) return;
+                    const radioInput = this.querySelector('input[type="radio"]');
+                    if (radioInput) {
+                        radioInput.checked = true;
+                        radioInput.dispatchEvent(new Event('change'));
+                    }
+                });
+
+                radio.addEventListener('change', function(e) {
+                    if (answered) return;
+                    selectedOption = parseInt(this.value);
+                    document.querySelectorAll('.option-label').forEach(el => el.classList.remove('selected'));
+                    this.closest('.option-label').classList.add('selected');
+                });
+
+                optionsContainer.appendChild(label);
+            });
+
+            prevBtn.disabled = (index === 0);
+
+            if (index === questions.length - 1) {
+                nextBtn.textContent = '✅ Finalizar';
+                nextBtn.className = 'btn btn-success';
+            } else {
+                nextBtn.textContent = 'Siguiente →';
+                nextBtn.className = 'btn btn-primary';
+            }
+
+            nextBtn.disabled = false;
+
+            document.querySelectorAll('.option-label').forEach(el => {
+                el.classList.remove('correct', 'wrong', 'disabled', 'selected');
+            });
+
+            if (results[index] !== undefined) {
+                const wasCorrect = results[index];
+                const qData = questions[index];
+                const labels = document.querySelectorAll('.option-label');
+                labels.forEach((label, idx) => {
+                    label.classList.add('disabled');
+                    const radio = label.querySelector('input[type="radio"]');
+                    if (radio) radio.disabled = true;
+                    if (idx === qData.correctIndex) {
+                        label.classList.add('correct');
+                    }
+                });
+                feedbackLabel.textContent = wasCorrect ? '✅' : '❌';
+                feedbackText.textContent = ' ' + qData.feedback;
+                feedbackDiv.className = 'feedback show ' + (wasCorrect ? 'correct' : 'incorrect');
+                answered = true;
+            }
+        }
+
+        function validateAndShowFeedback() {
+            if (answered) return true;
+
+            const q = questions[currentIndex];
+            if (selectedOption === null) {
+                alert('Por favor, selecciona una opción antes de continuar.');
+                return false;
+            }
+
+            answered = true;
+            const isCorrect = (selectedOption === q.correctIndex);
+            results[currentIndex] = isCorrect;
+
+            feedbackLabel.textContent = isCorrect ? '✅' : '❌';
+            feedbackText.textContent = ' ' + q.feedback;
+            feedbackDiv.className = 'feedback show ' + (isCorrect ? 'correct' : 'incorrect');
+
+            const labels = document.querySelectorAll('.option-label');
+            labels.forEach((label, idx) => {
+                label.classList.add('disabled');
+                const radio = label.querySelector('input[type="radio"]');
+                if (radio) radio.disabled = true;
+
+                if (idx === q.correctIndex) {
+                    label.classList.add('correct');
+                } else if (idx === selectedOption && !isCorrect) {
+                    label.classList.add('wrong');
+                }
+            });
+
+            return true;
+        }
+
+        function showResults() {
+            completed = true;
+            const total = questions.length;
+            const correct = results.filter(r => r === true).length;
+            const incorrect = total - correct;
+            const percentage = Math.round((correct / total) * 100);
+
+            scoreNumber.textContent = correct;
+            totalQuestions.textContent = total;
+            correctCount.textContent = correct;
+            incorrectCount.textContent = incorrect;
+            percentageDisplay.textContent = percentage + '%';
+
+            let message = '';
+            if (percentage === 100) message = '🌟 ¡Perfecto! Dominas completamente el tema.';
+            else if (percentage >= 80) message = '👏 ¡Muy bien! Tienes un excelente dominio del tema.';
+            else if (percentage >= 60) message = '📖 Buen trabajo. Revisa los conceptos que fallaste.';
+            else if (percentage >= 40) message = '💪 Sigue practicando. Repasa los materiales de estudio.';
+            else message = '📚 Te recomiendo estudiar nuevamente el contenido.';
+
+            resultMessage.textContent = message;
+
+            document.querySelectorAll('.hide-when-results').forEach(el => {
+                el.style.display = 'none';
+            });
+            resultados.classList.add('show');
+        }
+
+        function goToNext() {
+            if (!answered) {
+                const valid = validateAndShowFeedback();
+                if (!valid) return;
+                return;
+            }
+
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                renderQuestion(currentIndex);
+            } else {
+                showResults();
+            }
+        }
+
+        function goToPrev() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion(currentIndex);
+            }
+        }
+
+        function resetQuiz() {
+            currentIndex = 0;
+            answered = false;
+            selectedOption = null;
+            results = [];
+            completed = false;
+
+            document.querySelectorAll('.hide-when-results').forEach(el => {
+                el.style.display = '';
+            });
+            resultados.classList.remove('show');
+
+            renderQuestion(0);
+        }
+
+        function revisarRespuestas() {
+            document.querySelectorAll('.hide-when-results').forEach(el => {
+                el.style.display = '';
+            });
+            resultados.classList.remove('show');
+
+            currentIndex = 0;
+            renderQuestion(0);
+
+            nextBtn.textContent = 'Siguiente →';
+            nextBtn.className = 'btn btn-primary';
+        }
+
+        nextBtn.addEventListener('click', goToNext);
+        prevBtn.addEventListener('click', goToPrev);
+        reiniciarBtn.addEventListener('click', resetQuiz);
+        revisarBtn.addEventListener('click', revisarRespuestas);
+
+        document.addEventListener('keydown', (e) => {
+            if (resultados.classList.contains('show')) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    revisarBtn.click();
+                }
+                if (e.key === 'r' || e.key === 'R') {
+                    e.preventDefault();
+                    reiniciarBtn.click();
+                }
+                return;
+            }
+            if (e.key === 'ArrowRight' || e.key === 'Enter') {
+                e.preventDefault();
+                goToNext();
+            }
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                goToPrev();
+            }
+        });
+
+        renderQuestion(0);
+
+        console.log('Ejercicios de Repaso - Tributación');
+        console.log('Paleta: #03223D / #356289');
+        console.log('4 ejercicios con Selección Múltiple y Verdadero/Falso');
+    </script>
+
+</body>
+</html>
