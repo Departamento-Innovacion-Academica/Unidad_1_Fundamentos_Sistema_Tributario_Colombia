@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Elementos de los tributos</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      background: #ffffff;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .elementos {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 30px 40px;
+      align-items: stretch;
+    }
+
+    .tarjeta {
+      min-height: 130px;
+      padding: 18px 14px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 18px;
+      color: #ffffff;
+      text-align: center;
+
+      opacity: 0;
+      transform: translateY(80px) scale(0.94);
+      filter: blur(4px);
+
+      box-shadow: 0 14px 30px rgba(3, 34, 61, 0);
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+    }
+
+    .tarjeta.visible {
+      animation: entradaDesdeAbajo 0.75s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .tarjeta h2 {
+      font-size: clamp(1.2rem, 2.5vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    /* Primera fila - Colores según imagen */
+    .activo {
+      grid-column: 1 / span 2;
+      background: #03223D;
+    }
+
+    .pasivo {
+      grid-column: 3 / span 2;
+      background: #356289;
+    }
+
+    .hecho {
+      grid-column: 5 / span 2;
+      background: #5593c4;
+    }
+
+    /* Segunda fila centrada */
+    .base {
+      grid-column: 2 / span 2;
+      background: #3E368A;
+    }
+
+    .tarifa {
+      grid-column: 4 / span 2;
+      background: #3c928c;
+    }
+
+    .tarjeta:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(3, 34, 61, 0.15);
+      filter: brightness(1.04);
+    }
+
+    @keyframes entradaDesdeAbajo {
+      0% {
+        opacity: 0;
+        transform: translateY(80px) scale(0.94);
+        filter: blur(4px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateY(-8px) scale(1.01);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+        box-shadow: 0 10px 24px rgba(3, 34, 61, 0.08);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .elementos {
+        gap: 20px 24px;
+      }
+
+      .tarjeta {
+        min-height: 110px;
+        padding: 14px 10px;
+        border-radius: 14px;
+      }
+
+      .tarjeta h2 {
+        font-size: clamp(1rem, 3vw, 1.8rem);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .elementos {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .activo,
+      .pasivo,
+      .hecho,
+      .base,
+      .tarifa {
+        grid-column: auto;
+      }
+
+      .hecho {
+        grid-column: 1 / -1;
+      }
+
+      .tarjeta {
+        min-height: 90px;
+        border-radius: 12px;
+        padding: 12px 10px;
+      }
+
+      .tarjeta h2 {
+        font-size: clamp(0.9rem, 4vw, 1.4rem);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .elementos {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .hecho {
+        grid-column: auto;
+      }
+
+      .tarjeta {
+        min-height: 75px;
+        padding: 10px 14px;
+        border-radius: 10px;
+      }
+
+      .tarjeta h2 {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tarjeta {
+        opacity: 1;
+        transform: none;
+        filter: none;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="contenedor">
+
+    <section class="elementos" aria-label="Elementos de los tributos">
+
+      <article class="tarjeta activo" data-delay="0">
+        <h2>Sujeto<br>activo</h2>
+      </article>
+
+      <article class="tarjeta pasivo" data-delay="1">
+        <h2>Sujeto<br>pasivo</h2>
+      </article>
+
+      <article class="tarjeta hecho" data-delay="2">
+        <h2>Hecho<br>generador</h2>
+      </article>
+
+      <article class="tarjeta base" data-delay="3">
+        <h2>Base<br>gravable</h2>
+      </article>
+
+      <article class="tarjeta tarifa" data-delay="4">
+        <h2>Tarifa</h2>
+      </article>
+
+    </section>
+
+  </main>
+
+  <script>
+    const tarjetas = document.querySelectorAll(".tarjeta");
+
+    let animacionEjecutada = false;
+
+    function ejecutarAnimacion() {
+      if (animacionEjecutada) return;
+
+      animacionEjecutada = true;
+
+      tarjetas.forEach((tarjeta, index) => {
+        const orden = Number(tarjeta.dataset.delay) || index;
+
+        setTimeout(() => {
+          tarjeta.classList.add("visible");
+        }, 300 + orden * 400);
+      });
+    }
+
+    window.addEventListener("load", ejecutarAnimacion);
+
+    if (document.readyState === "complete") {
+      ejecutarAnimacion();
+    }
+  </script>
+
+</body>
+</html>

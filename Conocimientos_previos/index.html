@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Competencias Fundamentales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f6f8fc;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 780px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 40px 40px 36px;
+            box-shadow: 0 8px 40px rgba(3, 34, 61, 0.08);
+        }
+
+        /* Instrucción */
+        .instruccion {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #6b7a9f;
+            font-weight: 400;
+            margin-bottom: 24px;
+            letter-spacing: 0.3px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .instruccion span {
+            color: #356289;
+            font-weight: 500;
+        }
+
+        /* ============================================ */
+        /* ACORDEÓN */
+        /* ============================================ */
+
+        .acordeon {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .acordeon-item {
+            border: 1.5px solid #eef0f6;
+            border-radius: 14px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: #ffffff;
+        }
+
+        .acordeon-item:hover {
+            border-color: #356289;
+        }
+
+        .acordeon-item.abierto {
+            border-color: #356289;
+            box-shadow: 0 4px 20px rgba(53, 98, 137, 0.06);
+        }
+
+        .acordeon-header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fafbff;
+            user-select: none;
+            gap: 16px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .acordeon-header:hover {
+            background: rgba(53, 98, 137, 0.04);
+        }
+
+        .acordeon-item.abierto .acordeon-header {
+            background: rgba(53, 98, 137, 0.04);
+        }
+
+        .acordeon-header .titulo-item {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: #03223D;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .acordeon-header .titulo-item .numero {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: #356289;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .acordeon-header .titulo-item .icono {
+            font-size: 1.2rem;
+            color: #356289;
+        }
+
+        .acordeon-header .toggle-btn {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: #356289;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            flex-shrink: 0;
+            width: 28px;
+            text-align: center;
+            line-height: 1;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .acordeon-item.abierto .toggle-btn {
+            transform: rotate(45deg);
+            color: #03223D;
+        }
+
+        .acordeon-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), padding 0.3s ease;
+            padding: 0 20px;
+            background: #ffffff;
+        }
+
+        .acordeon-item.abierto .acordeon-body {
+            max-height: 500px;
+            padding: 16px 20px 20px;
+        }
+
+        .acordeon-body p {
+            font-size: 0.88rem;
+            color: #4a5a7a;
+            line-height: 1.7;
+            font-weight: 400;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .acordeon-body p strong {
+            color: #03223D;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 24px 16px 20px;
+                border-radius: 18px;
+            }
+
+            .instruccion {
+                font-size: 0.7rem;
+                text-align: left;
+            }
+
+            .acordeon-header {
+                padding: 14px 16px;
+            }
+
+            .acordeon-header .titulo-item {
+                font-size: 0.82rem;
+                gap: 10px;
+            }
+
+            .acordeon-header .titulo-item .numero {
+                width: 22px;
+                height: 22px;
+                font-size: 0.55rem;
+            }
+
+            .acordeon-body p {
+                font-size: 0.8rem;
+            }
+
+            .acordeon-item.abierto .acordeon-body {
+                padding: 12px 16px 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                padding: 16px 12px 18px;
+                border-radius: 14px;
+            }
+
+            .instruccion {
+                font-size: 0.65rem;
+            }
+
+            .acordeon-header {
+                padding: 12px 12px;
+            }
+
+            .acordeon-header .titulo-item {
+                font-size: 0.75rem;
+                gap: 8px;
+            }
+
+            .acordeon-header .titulo-item .numero {
+                width: 20px;
+                height: 20px;
+                font-size: 0.5rem;
+            }
+
+            .acordeon-header .titulo-item .icono {
+                font-size: 1rem;
+            }
+
+            .acordeon-header .toggle-btn {
+                font-size: 1.1rem;
+                width: 24px;
+            }
+
+            .acordeon-body p {
+                font-size: 0.75rem;
+            }
+
+            .acordeon-item.abierto .acordeon-body {
+                padding: 10px 12px 12px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f2f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8d0df;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #356289;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Instrucción - alineada a la derecha -->
+        <div class="instruccion">
+            <span>Haga clic sobre el símbolo (+)</span> para ampliar la información.
+        </div>
+
+        <!-- ============================================ -->
+        <!-- ACORDEÓN - TODOS CERRADOS -->
+        <!-- ============================================ -->
+
+        <div class="acordeon" id="acordeon">
+
+            <!-- Item 1 -->
+            <div class="acordeon-item">
+                <div class="acordeon-header" onclick="toggleAcordeon(this)">
+                    <div class="titulo-item">
+                        <span class="numero">1</span>
+                        <span class="icono material-icons-round">account_balance</span>
+                        Conocimientos previos 1
+                    </div>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="acordeon-body">
+                    <p>• Conceptos generales de Estado, gobierno y administración pública.</p>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="acordeon-item">
+                <div class="acordeon-header" onclick="toggleAcordeon(this)">
+                    <div class="titulo-item">
+                        <span class="numero">2</span>
+                        <span class="icono material-icons-round">gavel</span>
+                        Conocimientos previos 2
+                    </div>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="acordeon-body">
+                    <p>• Nociones básicas sobre la Constitución Política de Colombia y la jerarquía normativa.</p>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="acordeon-item">
+                <div class="acordeon-header" onclick="toggleAcordeon(this)">
+                    <div class="titulo-item">
+                        <span class="numero">3</span>
+                        <span class="icono material-icons-round">trending_up</span>
+                        Conocimientos previos 3
+                    </div>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="acordeon-body">
+                    <p>• Conceptos fundamentales de economía, finanzas y actividad empresarial.</p>
+                </div>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="acordeon-item">
+                <div class="acordeon-header" onclick="toggleAcordeon(this)">
+                    <div class="titulo-item">
+                        <span class="numero">4</span>
+                        <span class="icono material-icons-round">payments</span>
+                        Conocimientos previos 4
+                    </div>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="acordeon-body">
+                    <p>• Comprensión básica de la relación entre los ingresos públicos y el financiamiento del gasto estatal.</p>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="acordeon-item">
+                <div class="acordeon-header" onclick="toggleAcordeon(this)">
+                    <div class="titulo-item">
+                        <span class="numero">5</span>
+                        <span class="icono material-icons-round">menu_book</span>
+                        Conocimientos previos 5
+                    </div>
+                    <span class="toggle-btn">+</span>
+                </div>
+                <div class="acordeon-body">
+                    <p>• Habilidades de lectura, análisis e interpretación de textos normativos y académicos.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // ============================================ //
+        // ACORDEÓN
+        // ============================================ //
+
+        function toggleAcordeon(header) {
+            const item = header.closest('.acordeon-item');
+            const isOpen = item.classList.contains('abierto');
+            const btn = item.querySelector('.toggle-btn');
+
+            // Cerrar todos
+            document.querySelectorAll('.acordeon-item').forEach(el => {
+                el.classList.remove('abierto');
+                const b = el.querySelector('.toggle-btn');
+                if (b) b.textContent = '+';
+            });
+
+            // Si no estaba abierto, abrirlo
+            if (!isOpen) {
+                item.classList.add('abierto');
+                if (btn) btn.textContent = '−';
+            }
+        }
+
+        console.log('Competencias Fundamentales - Acordeón');
+        console.log('Paleta: #03223D / #356289');
+        console.log('5 competencias clave - Todos cerrados');
+    </script>
+
+</body>
+</html>

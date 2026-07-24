@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Impuestos, tasas y contribuciones</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      background: #ffffff;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .contenedor {
+      width: 100%;
+      max-width: 1100px;
+    }
+
+    .bloques {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 28px;
+      min-height: 600px;
+    }
+
+    .bloque {
+      position: relative;
+      width: 30%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 18px;
+      color: #ffffff;
+      overflow: hidden;
+      opacity: 0;
+      box-shadow: 0 16px 35px rgba(3, 34, 61, 0);
+      border-radius: 18px;
+    }
+
+    .bloque.visible {
+      opacity: 1;
+    }
+
+    .impuestos {
+      height: 520px;
+      background: #03223D;
+      transform: translateX(-140px);
+      border-radius: 18px 0 0 18px;
+    }
+
+    .tasas {
+      height: 460px;
+      background: #356289;
+      transform: translateY(120px);
+      border-radius: 18px;
+    }
+
+    .contribuciones {
+      height: 340px;
+      background: #3E368A;
+      transform: translateX(140px);
+      border-radius: 0 18px 18px 0;
+    }
+
+    .impuestos.visible {
+      animation: entradaIzquierda 0.8s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .tasas.visible {
+      animation: entradaAbajo 0.8s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .contribuciones.visible {
+      animation: entradaDerecha 0.8s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .bloque h2 {
+      font-size: clamp(1.8rem, 3.2vw, 1.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 2px;
+      transform: rotate(-90deg);
+      white-space: nowrap;
+    }
+
+    /* Contribuciones: 10 % más pequeña */
+    .contribuciones h4 {
+      font-size: clamp(1.62rem, 2.88vw, 1 rem);
+    }
+
+    .bloque:hover {
+      filter: brightness(1.06);
+      box-shadow: 0 14px 32px rgba(3, 34, 61, 0.16);
+      transform: scale(1.02);
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+    }
+
+    .impuestos:hover {
+      transform: scale(1.02);
+    }
+
+    .tasas:hover {
+      transform: scale(1.02);
+    }
+
+    .contribuciones:hover {
+      transform: scale(1.02);
+    }
+
+    @keyframes entradaIzquierda {
+      0% {
+        opacity: 0;
+        transform: translateX(-140px);
+        filter: blur(6px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateX(10px);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+        box-shadow: 0 10px 24px rgba(3, 34, 61, 0.08);
+      }
+    }
+
+    @keyframes entradaAbajo {
+      0% {
+        opacity: 0;
+        transform: translateY(120px);
+        filter: blur(6px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateY(-10px);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+        box-shadow: 0 10px 24px rgba(3, 34, 61, 0.08);
+      }
+    }
+
+    @keyframes entradaDerecha {
+      0% {
+        opacity: 0;
+        transform: translateX(140px);
+        filter: blur(6px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateX(-10px);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+        box-shadow: 0 10px 24px rgba(3, 34, 61, 0.08);
+      }
+    }
+
+    @media (max-width: 820px) {
+      .bloques {
+        gap: 18px;
+        min-height: 500px;
+      }
+
+      .impuestos {
+        height: 420px;
+      }
+
+      .tasas {
+        height: 370px;
+      }
+
+      .contribuciones {
+        height: 280px;
+      }
+
+      .bloque h2 {
+        font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+      }
+
+      .contribuciones h2 {
+        font-size: clamp(1.26rem, 3.15vw, 2.16rem);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .bloques {
+        min-height: auto;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+
+      .bloque {
+        width: 100%;
+        height: 120px;
+        min-height: 120px;
+        padding: 16px 14px;
+        border-radius: 14px;
+        transform: none !important;
+      }
+
+      .bloque h2 {
+        font-size: clamp(1.6rem, 7vw, 2.4rem);
+        transform: none;
+        white-space: normal;
+      }
+
+      .contribuciones h2 {
+        font-size: clamp(1.44rem, 6.3vw, 2.16rem);
+      }
+
+      .impuestos,
+      .tasas,
+      .contribuciones {
+        border-radius: 14px;
+        transform: none !important;
+      }
+
+      .impuestos.visible,
+      .tasas.visible,
+      .contribuciones.visible {
+        animation: entradaAbajoMovil 0.8s
+          cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      .bloque:hover,
+      .impuestos:hover,
+      .tasas:hover,
+      .contribuciones:hover {
+        transform: scale(1.02) !important;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .bloque {
+        height: 100px;
+        min-height: 100px;
+        padding: 12px 10px;
+      }
+
+      .bloque h2 {
+        font-size: 1.4rem;
+      }
+
+      .contribuciones h2 {
+        font-size: 1.26rem;
+      }
+    }
+
+    @keyframes entradaAbajoMovil {
+      0% {
+        opacity: 0;
+        transform: translateY(80px);
+        filter: blur(6px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateY(-8px);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+        box-shadow: 0 10px 24px rgba(3, 34, 61, 0.08);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bloque {
+        opacity: 1;
+        transform: none !important;
+        animation: none !important;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="contenedor">
+
+    <section
+      class="bloques"
+      aria-label="Impuestos, tasas y contribuciones"
+    >
+
+      <article class="bloque impuestos" id="impuestos">
+        <h2>Impuestos</h2>
+      </article>
+
+      <article class="bloque tasas" id="tasas">
+        <h2>Tasas</h2>
+      </article>
+
+      <article
+        class="bloque contribuciones"
+        id="contribuciones"
+      >
+        <h2>Contribuciones</h2>
+      </article>
+
+    </section>
+
+  </main>
+
+  <script>
+    const impuestos = document.getElementById("impuestos");
+    const tasas = document.getElementById("tasas");
+    const contribuciones =
+      document.getElementById("contribuciones");
+
+    let animacionEjecutada = false;
+
+    function ejecutarAnimacion() {
+      if (animacionEjecutada) return;
+
+      animacionEjecutada = true;
+
+      // Impuestos entra desde la izquierda
+      setTimeout(() => {
+        impuestos.classList.add("visible");
+      }, 300);
+
+      // Tasas entra desde abajo
+      setTimeout(() => {
+        tasas.classList.add("visible");
+      }, 1200);
+
+      // Contribuciones entra desde la derecha
+      setTimeout(() => {
+        contribuciones.classList.add("visible");
+      }, 2100);
+    }
+
+    window.addEventListener("load", ejecutarAnimacion);
+
+    if (document.readyState === "complete") {
+      ejecutarAnimacion();
+    }
+  </script>
+
+</body>
+</html>

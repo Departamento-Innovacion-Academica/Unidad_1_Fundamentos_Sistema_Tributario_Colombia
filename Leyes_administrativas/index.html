@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Jerarquía normativa</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 16px;
+      background: #ffffff;
+      font-family: "Poppins", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .jerarquia {
+      position: relative;
+      width: min(900px, 100%);
+      min-height: 600px;
+    }
+
+    /* =========================
+       PIRÁMIDE
+    ========================= */
+
+    .piramide {
+      position: absolute;
+      left: 20px;
+      bottom: 0;
+      width: 600px;
+      height: 600px;
+      background: #356289;
+      clip-path: polygon(
+        50% 0,
+        100% 100%,
+        0 100%
+      );
+
+      opacity: 0;
+      transform: scale(0.9) translateY(40px);
+      transform-origin: center bottom;
+    }
+
+    .piramide.visible {
+      animation: mostrarPiramide 1s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* =========================
+       BLOQUES CENTRALES
+    ========================= */
+
+    .bloques-principales {
+      position: absolute;
+      top: 32px;
+      left: 320px;
+      width: 350px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 2;
+    }
+
+    .bloque {
+      position: relative;
+      min-height: 68px;
+      padding: 10px 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: rgba(241, 241, 241, 0.9);
+      border: 1px solid #356289;
+      border-radius: 14px;
+
+      color: #03223D;
+      text-align: center;
+
+      box-shadow: 5px 0 0 #356289;
+
+      opacity: 0;
+      transform: translateX(170px);
+    }
+
+    .bloque.visible {
+      animation: entradaDerecha 0.75s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .bloque h2 {
+      font-size: clamp(1.1rem, 2vw, 1.7rem);
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    /* Bloques morados */
+    .bloque.morado {
+      background: #3E368A;
+      border-color: #3E368A;
+      box-shadow: none;
+      color: #ffffff;
+    }
+
+    .bloque.morado h2 {
+      font-size: clamp(0.9rem, 1.7vw, 1.4rem);
+    }
+
+    /* Ajustes por bloque */
+    .bloque:nth-child(4) h2 {
+      font-size: clamp(0.85rem, 1.6vw, 1.3rem);
+    }
+
+    .bloque:nth-child(5),
+    .bloque:nth-child(7) {
+      margin-left: -6px;
+      width: calc(100% + 6px);
+    }
+
+    /* =========================
+       RAMAS EJECUTIVAS - MÁS A LA DERECHA
+    ========================= */
+
+    .ramas {
+      position: absolute;
+      top: 295px;
+      right: -14px;
+      width: 230px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .rama {
+      min-height: 148px;
+      padding: 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #356289;
+      color: #ffffff;
+      text-align: center;
+
+      opacity: 0;
+      transform: translateX(170px) scale(0.96);
+    }
+
+    .rama.visible {
+      animation: entradaRama 0.8s
+        cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .rama h2 {
+      font-size: clamp(1rem, 1.8vw, 1.6rem);
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    /* Efecto hover */
+    .bloque,
+    .rama {
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        filter 0.3s ease;
+    }
+
+    .bloque:hover {
+      transform: translateY(-4px);
+      filter: brightness(1.02);
+    }
+
+    .bloque.morado:hover {
+      box-shadow: 0 10px 24px rgba(62, 54, 138, 0.20);
+    }
+
+    .rama:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(3, 34, 61, 0.15);
+    }
+
+    /* =========================
+       ANIMACIONES
+    ========================= */
+
+    @keyframes mostrarPiramide {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(40px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes entradaDerecha {
+      0% {
+        opacity: 0;
+        transform: translateX(170px);
+        filter: blur(4px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateX(-8px);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+        filter: blur(0);
+      }
+    }
+
+    @keyframes entradaRama {
+      0% {
+        opacity: 0;
+        transform: translateX(170px) scale(0.96);
+        filter: blur(4px);
+      }
+
+      65% {
+        opacity: 1;
+        transform: translateX(-8px) scale(1.01);
+        filter: blur(0);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+        filter: blur(0);
+      }
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 950px) {
+      .jerarquia {
+        min-height: 550px;
+      }
+
+      .piramide {
+        width: 530px;
+        height: 530px;
+      }
+
+      .bloques-principales {
+        left: 280px;
+        width: 300px;
+        gap: 12px;
+      }
+
+      .bloque {
+        min-height: 60px;
+        padding: 8px 12px;
+      }
+
+      .ramas {
+        width: 190px;
+        top: 260px;
+        right: -10px;
+      }
+
+      .rama {
+        min-height: 130px;
+        padding: 14px;
+      }
+    }
+
+    @media (max-width: 850px) {
+      body {
+        padding: 20px 12px;
+      }
+
+      .jerarquia {
+        min-height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .piramide {
+        position: relative;
+        left: auto;
+        bottom: auto;
+        width: min(400px, 100%);
+        height: 340px;
+      }
+
+      .bloques-principales {
+        position: absolute;
+        top: 26px;
+        left: 50%;
+        width: min(300px, 80%);
+        transform: translateX(-50%);
+        gap: 8px;
+      }
+
+      .bloque {
+        min-height: 40px;
+        padding: 6px 10px;
+        border-radius: 10px;
+        box-shadow: 3px 0 0 #356289;
+      }
+
+      .bloque h2 {
+        font-size: clamp(0.7rem, 3vw, 1.1rem);
+      }
+
+      .bloque.morado h2,
+      .bloque:nth-child(4) h2 {
+        font-size: clamp(0.6rem, 2.5vw, 0.9rem);
+      }
+
+      .ramas {
+        position: relative;
+        top: auto;
+        right: auto;
+        width: min(400px, 100%);
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .rama {
+        flex: 1;
+        min-height: 100px;
+        padding: 12px 10px;
+      }
+
+      .rama h2 {
+        font-size: clamp(0.8rem, 3vw, 1.1rem);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .piramide {
+        height: 290px;
+      }
+
+      .bloques-principales {
+        top: 20px;
+        width: 86%;
+        gap: 6px;
+      }
+
+      .bloque {
+        min-height: 34px;
+        padding: 5px 8px;
+        border-radius: 8px;
+      }
+
+      .bloque h2 {
+        font-size: 0.65rem;
+      }
+
+      .bloque.morado h2,
+      .bloque:nth-child(4) h2 {
+        font-size: 0.55rem;
+      }
+
+      .ramas {
+        flex-direction: column;
+      }
+
+      .rama {
+        width: 100%;
+        min-height: 80px;
+        padding: 10px;
+      }
+
+      .rama h2 {
+        font-size: 0.8rem;
+      }
+    }
+
+    /* Accesibilidad */
+
+    @media (prefers-reduced-motion: reduce) {
+      .piramide,
+      .bloque,
+      .rama {
+        opacity: 1;
+        transform: none;
+        animation: none !important;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="jerarquia" aria-label="Pirámide de jerarquía normativa">
+
+    <!-- Pirámide de fondo -->
+    <div class="piramide" id="piramide" aria-hidden="true"></div>
+
+    <!-- Bloques principales -->
+    <section class="bloques-principales">
+
+      <article class="bloque">
+        <h2>Constitución Política</h2>
+      </article>
+
+      <article class="bloque">
+        <h2>Actos legislativos</h2>
+      </article>
+
+      <article class="bloque">
+        <h2>Leyes</h2>
+      </article>
+
+      <article class="bloque">
+        <h2>Decretos con fuerza de<br>ley</h2>
+      </article>
+
+      <article class="bloque morado">
+        <h2>Decretos, Resoluciones y<br>Circulares</h2>
+      </article>
+
+      <article class="bloque">
+        <h2>Ordenanzas y Acuerdos</h2>
+      </article>
+
+      <article class="bloque morado">
+        <h2>Decretos, resoluciones</h2>
+      </article>
+
+    </section>
+
+    <!-- Ramas ejecutivas -->
+    <section class="ramas">
+
+      <article class="rama">
+        <h2>
+          Rama<br>
+          ejecutiva orden<br>
+          nacional
+        </h2>
+      </article>
+
+      <article class="rama">
+        <h2>
+          Rama<br>
+          ejecutiva orden<br>
+          territorial
+        </h2>
+      </article>
+
+    </section>
+
+  </main>
+
+  <script>
+    const piramide = document.getElementById("piramide");
+    const bloques = document.querySelectorAll(".bloque");
+    const ramas = document.querySelectorAll(".rama");
+
+    let animacionEjecutada = false;
+
+    function ejecutarAnimacion() {
+      if (animacionEjecutada) return;
+
+      animacionEjecutada = true;
+
+      // 1. Aparece la pirámide
+      setTimeout(() => {
+        piramide.classList.add("visible");
+      }, 250);
+
+      // 2. Bloques centrales de derecha a izquierda
+      bloques.forEach((bloque, index) => {
+        setTimeout(() => {
+          bloque.classList.add("visible");
+        }, 1200 + index * 500);
+      });
+
+      // 3. Al final aparecen las ramas ejecutivas
+      const inicioRamas = 1200 + bloques.length * 500;
+
+      ramas.forEach((rama, index) => {
+        setTimeout(() => {
+          rama.classList.add("visible");
+        }, inicioRamas + index * 650);
+      });
+    }
+
+    window.addEventListener("load", ejecutarAnimacion);
+  </script>
+
+</body>
+</html>
